@@ -286,8 +286,6 @@ unexpected behavior". In real projects the YAML in git is the source of truth.
 > **My notes:** the upgrade and the rollback both went 1 of 3, 2 of 3, then old
 > replicas pending termination. `kubectl get replicaset` listed every previous
 > version at 0 Pods, and the history showed 4 revisions with `CHANGE-CAUSE <none>`.
-> _(Add: did the request loop show any errors during the upgrade? Only claim
-> "zero failed requests" if it really didn't.)_
 
 ## Step 6: Persistence with a PVC
 

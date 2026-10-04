@@ -1,0 +1,14 @@
+# Step 0: the "before" picture - plain Docker, no orchestration.
+services:
+  web:
+    build: ./app
+    image: k8s-visit-counter:v1
+    ports:
+      - "5000:5000"
+    environment:
+      REDIS_HOST: redis
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine

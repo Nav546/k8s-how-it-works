@@ -1,0 +1,43 @@
+# Step 2: a Deployment keeps N identical Pods running (self-healing + scaling).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      enableServiceLinks: false   # stop K8s injecting REDIS_PORT=tcp://... (see README troubleshooting)
+      containers:
+        - name: web
+          image: k8s-visit-counter:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          env:
+            - name: REDIS_HOST
+              value: redis
+          readinessProbe:            # only send traffic when ready
+            httpGet:
+              path: /healthz
+              port: 5000
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:             # restart the container if it hangs
+            httpGet:
+              path: /healthz
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi

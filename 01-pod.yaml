@@ -1,0 +1,17 @@
+# Step 1: a bare Pod. Nothing manages it - if it dies, it stays dead.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-pod
+  labels:
+    app: web-bare
+spec:
+  containers:
+    - name: web
+      image: k8s-visit-counter:v1
+      imagePullPolicy: IfNotPresent   # use the image loaded into Kind
+      ports:
+        - containerPort: 5000
+      env:
+        - name: REDIS_HOST
+          value: redis

@@ -1,0 +1,21 @@
+# Step 7: only Pods labelled app=web may reach Redis on 6379.
+# Selecting the redis Pods makes them "isolated" for ingress; the rule below
+# is the only thing allowed back in.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: redis-allow-web-only
+spec:
+  podSelector:
+    matchLabels:
+      app: redis
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: web
+      ports:
+        - protocol: TCP
+          port: 6379

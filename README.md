@@ -1,4 +1,4 @@
-# How Kubernetes Works: one concept at a time
+﻿# How Kubernetes Works: one concept at a time
 
 A hands-on walkthrough that builds a tiny app up from plain Docker to a
 Kubernetes setup with self-healing, Services, config, secrets, persistence and
@@ -177,6 +177,8 @@ and DNS name. The reset shows containers are ephemeral, which motivates Step 6.
 > (`10.96.12.154`). Deleting Redis reset `visits` to 1.
 
 ### What broke: CrashLoopBackOff on new web Pods
+
+![CrashLoopBackOff on new web Pods](images/crashloopbackoff-watch.png)
 
 When I scaled to 3 web replicas, the new Pods went `Error`, then
 `CrashLoopBackOff`, while the original Pods kept working. Readiness probes kept
